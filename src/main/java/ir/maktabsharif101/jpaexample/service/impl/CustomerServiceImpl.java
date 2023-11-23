@@ -9,11 +9,13 @@ import ir.maktabsharif101.jpaexample.service.CustomerService;
 import ir.maktabsharif101.jpaexample.service.WalletService;
 import ir.maktabsharif101.jpaexample.service.base.BaseUserServiceImpl;
 import ir.maktabsharif101.jpaexample.service.dto.CustomerRegistrationDTO;
+import ir.maktabsharif101.jpaexample.service.dto.CustomerSearch;
 import ir.maktabsharif101.jpaexample.util.SemaphoreUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerRepository>
         implements CustomerService {
@@ -66,6 +68,11 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
             SemaphoreUtil.releaseNewCustomerSemaphore();
         }
 
+    }
+
+    @Override
+    public List<Customer> search(CustomerSearch search) {
+        return baseRepository.search(search);
     }
 
     private void validateRegistrationDTO(CustomerRegistrationDTO dto) {
