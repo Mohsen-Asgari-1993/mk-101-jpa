@@ -13,7 +13,7 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
         R extends BaseEntityRepository<T, ID>>
         implements BaseEntityService<T, ID> {
 
-    private final R baseRepository;
+    protected final R baseRepository;
 
     @Override
     public T save(T t) {
