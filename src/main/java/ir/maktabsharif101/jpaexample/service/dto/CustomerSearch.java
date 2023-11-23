@@ -1,9 +1,6 @@
 package ir.maktabsharif101.jpaexample.service.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -12,6 +9,7 @@ import java.time.ZonedDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CustomerSearch implements Serializable {
 
     private String firstName;
