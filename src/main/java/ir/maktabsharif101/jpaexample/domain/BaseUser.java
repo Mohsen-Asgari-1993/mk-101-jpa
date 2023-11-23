@@ -35,6 +35,7 @@ public class BaseUser extends BaseEntity<Long> {
     public static final String CREATE_DATE = "create_date";
     public static final String LAST_UPDATE_DATE = "last_update_date";
     public static final String NATIONAL_CODE = "national_code";
+    public static final String MOBILE_NUMBER = "mobile_number";
     public static final String IS_ACTIVE = "is_active";
     public static final String USERS_ROLES_JOIN_TABLE = "users_roles";
 
@@ -58,6 +59,9 @@ public class BaseUser extends BaseEntity<Long> {
 
     @Column(name = NATIONAL_CODE)
     private String nationalCode;
+
+    @Column(name = MOBILE_NUMBER)
+    private String mobileNumber;
 
     @Column(name = IS_ACTIVE)
     private Boolean isActive;
