@@ -52,10 +52,10 @@ public class BaseUser extends BaseEntity<Long> {
     private String password;
 
     @Column(name = CREATE_DATE)
-    private ZonedDateTime createDate;
+    private ZonedDateTime createDate = ZonedDateTime.now();
 
     @Column(name = LAST_UPDATE_DATE)
-    private ZonedDateTime lastUpdateDate;
+    private ZonedDateTime lastUpdateDate = ZonedDateTime.now();
 
     @Column(name = NATIONAL_CODE)
     private String nationalCode;
@@ -64,7 +64,7 @@ public class BaseUser extends BaseEntity<Long> {
     private String mobileNumber;
 
     @Column(name = IS_ACTIVE)
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @ManyToMany
     @JoinTable(name = USERS_ROLES_JOIN_TABLE)

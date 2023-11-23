@@ -36,16 +36,18 @@ public class Wallet extends BaseEntity<Long> {
     public static final String CUSTOMER_ID = "customer_id";
 
     @Column(name = TOTAL_AMOUNT)
-    private Long totalAmount;
+    private Long totalAmount = 0L;
 
     @Column(name = CASH_AMOUNT)
-    private Long cashAmount;
+    private Long cashAmount = 0L;
 
     @Column(name = CREDIT_AMOUNT)
-    private Long creditAmount;
+    private Long creditAmount = 0L;
 
     @Column(name = CUSTOMER_ID, nullable = false)
     private Long customerId;
 
-
+    public Wallet(Long customerId) {
+        this.customerId = customerId;
+    }
 }

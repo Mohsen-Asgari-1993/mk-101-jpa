@@ -18,13 +18,13 @@ public abstract class BaseEntityRepositoryImpl<T extends BaseEntity<ID>, ID exte
 
     @Override
     public T save(T t) {
-        beginTransaction();
+//        beginTransaction();
         if (t.getId() == null) {
             entityManager.persist(t);
         } else {
             t = entityManager.merge(t);
         }
-        commitTransaction();
+//        commitTransaction();
         return t;
     }
 
@@ -54,19 +54,19 @@ public abstract class BaseEntityRepositoryImpl<T extends BaseEntity<ID>, ID exte
 
     @Override
     public void deleteAll() {
-        beginTransaction();
+//        beginTransaction();
         entityManager.createQuery(
                 "delete from " + getEntityClass().getSimpleName()
         ).executeUpdate();
-        commitTransaction();
+//        commitTransaction();
     }
 
     @Override
     public void deleteById(ID id) {
-        beginTransaction();
+//        beginTransaction();
         Optional<T> optional = findById(id);
         optional.ifPresent(entityManager::remove);
-        commitTransaction();
+//        commitTransaction();
     }
 
     @Override

@@ -16,88 +16,88 @@ public class ApplicationContext {
                     "default"
             ).createEntityManager();
 
-    private AddressRepository addressRepository;
+    private static AddressRepository addressRepository;
 
-    private AdminRepository adminRepository;
+    private static AdminRepository adminRepository;
 
-    private CustomerRepository customerRepository;
+    private static CustomerRepository customerRepository;
 
-    private PermissionRepository permissionRepository;
+    private static PermissionRepository permissionRepository;
 
-    private RoleRepository roleRepository;
+    private static RoleRepository roleRepository;
 
-    private UserRepository userRepository;
+    private static UserRepository userRepository;
 
-    private WalletRepository walletRepository;
+    private static WalletRepository walletRepository;
 
-    private AddressService addressService;
+    private static AddressService addressService;
 
-    private AdminService adminService;
+    private static AdminService adminService;
 
-    private CustomerService customerService;
+    private static CustomerService customerService;
 
-    private PermissionService permissionService;
+    private static PermissionService permissionService;
 
-    private RoleService roleService;
+    private static RoleService roleService;
 
-    private UserService userService;
+    private static UserService userService;
 
-    private WalletService walletService;
+    private static WalletService walletService;
 
     public static EntityManager getEntityManager() {
         return entityManager;
     }
 
-    public AddressRepository getAddressRepository() {
+    public static AddressRepository getAddressRepository() {
         if (addressRepository == null) {
             addressRepository = new AddressRepositoryImpl(entityManager);
         }
         return addressRepository;
     }
 
-    public AdminRepository getAdminRepository() {
+    public static AdminRepository getAdminRepository() {
         if (adminRepository == null) {
             adminRepository = new AdminRepositoryImpl(entityManager);
         }
         return adminRepository;
     }
 
-    public CustomerRepository getCustomerRepository() {
+    public static CustomerRepository getCustomerRepository() {
         if (customerRepository == null) {
             customerRepository = new CustomerRepositoryImpl(entityManager);
         }
         return customerRepository;
     }
 
-    public PermissionRepository getPermissionRepository() {
+    public static PermissionRepository getPermissionRepository() {
         if (permissionRepository == null) {
             permissionRepository = new PermissionRepositoryImpl(entityManager);
         }
         return permissionRepository;
     }
 
-    public RoleRepository getRoleRepository() {
+    public static RoleRepository getRoleRepository() {
         if (roleRepository == null) {
             roleRepository = new RoleRepositoryImpl(entityManager);
         }
         return roleRepository;
     }
 
-    public UserRepository getUserRepository() {
+    public static UserRepository getUserRepository() {
         if (userRepository == null) {
             userRepository = new UserRepositoryImpl(entityManager);
         }
         return userRepository;
     }
 
-    public WalletRepository getWalletRepository() {
+    public static WalletRepository getWalletRepository() {
         if (walletRepository == null) {
             walletRepository = new WalletRepositoryImpl(entityManager);
         }
         return walletRepository;
     }
 
-    public AddressService getAddressService() {
+    public static AddressService getAddressService() {
         if (addressService == null) {
             addressService = new AddressServiceImpl(
                     getAddressRepository()
@@ -106,7 +106,7 @@ public class ApplicationContext {
         return addressService;
     }
 
-    public AdminService getAdminService() {
+    public static AdminService getAdminService() {
         if (adminService == null) {
             adminService = new AdminServiceImpl(
                     getAdminRepository()
@@ -115,16 +115,17 @@ public class ApplicationContext {
         return adminService;
     }
 
-    public CustomerService getCustomerService() {
+    public static CustomerService getCustomerService() {
         if (customerService == null) {
             customerService = new CustomerServiceImpl(
-                    getCustomerRepository()
+                    getCustomerRepository(),
+                    getWalletService()
             );
         }
         return customerService;
     }
 
-    public PermissionService getPermissionService() {
+    public static PermissionService getPermissionService() {
         if (permissionService == null) {
             permissionService = new PermissionServiceImpl(
                     getPermissionRepository()
@@ -133,7 +134,7 @@ public class ApplicationContext {
         return permissionService;
     }
 
-    public RoleService getRoleService() {
+    public static RoleService getRoleService() {
         if (roleService == null) {
             roleService = new RoleServiceImpl(
                     getRoleRepository()
@@ -142,7 +143,7 @@ public class ApplicationContext {
         return roleService;
     }
 
-    public UserService getUserService() {
+    public static UserService getUserService() {
         if (userService == null) {
             userService = new UserServiceImpl(
                     getUserRepository()
@@ -151,7 +152,7 @@ public class ApplicationContext {
         return userService;
     }
 
-    public WalletService getWalletService() {
+    public static WalletService getWalletService() {
         if (walletService == null) {
             walletService = new WalletServiceImpl(
                     getWalletRepository()
