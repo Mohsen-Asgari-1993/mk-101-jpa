@@ -37,6 +37,7 @@ public class BaseUser extends BaseEntity<Long> {
     public static final String NATIONAL_CODE = "national_code";
     public static final String MOBILE_NUMBER = "mobile_number";
     public static final String IS_ACTIVE = "is_active";
+    public static final String USER_TYPE = "user_type";
     public static final String USERS_ROLES_JOIN_TABLE = "users_roles";
 
     @Column(name = FIRST_NAME)
@@ -65,6 +66,9 @@ public class BaseUser extends BaseEntity<Long> {
 
     @Column(name = IS_ACTIVE)
     private Boolean isActive = true;
+
+    @Column(name = USER_TYPE)
+    private String userType;
 
     @ManyToMany
     @JoinTable(name = USERS_ROLES_JOIN_TABLE)

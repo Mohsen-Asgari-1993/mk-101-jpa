@@ -50,4 +50,15 @@ public class Wallet extends BaseEntity<Long> {
     public Wallet(Long customerId) {
         this.customerId = customerId;
     }
+
+    @Override
+    public String toString() {
+        return "Wallet{" +
+                "id=" + getId() +
+                ", totalAmount=" + totalAmount +
+                ", cashAmount=" + cashAmount +
+                ", creditAmount=" + creditAmount +
+                ", customerId=" + customerId +
+                '}';
+    }
 }

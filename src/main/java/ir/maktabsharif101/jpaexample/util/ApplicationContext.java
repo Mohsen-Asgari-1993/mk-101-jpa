@@ -44,6 +44,8 @@ public class ApplicationContext {
 
     private static WalletService walletService;
 
+    private static AuthenticationService authenticationService;
+
     public static EntityManager getEntityManager() {
         return entityManager;
     }
@@ -159,5 +161,14 @@ public class ApplicationContext {
             );
         }
         return walletService;
+    }
+
+    public static AuthenticationService getAuthenticationService() {
+        if (authenticationService == null) {
+            authenticationService = new AuthenticationServiceImpl(
+                    getUserService()
+            );
+        }
+        return authenticationService;
     }
 }

@@ -3,6 +3,7 @@ package ir.maktabsharif101.jpaexample.service.impl;
 import com.google.common.hash.Hashing;
 import ir.maktabsharif101.jpaexample.domain.Customer;
 import ir.maktabsharif101.jpaexample.domain.Wallet;
+import ir.maktabsharif101.jpaexample.domain.enumeration.UserType;
 import ir.maktabsharif101.jpaexample.repository.CustomerRepository;
 import ir.maktabsharif101.jpaexample.service.CustomerService;
 import ir.maktabsharif101.jpaexample.service.WalletService;
@@ -43,6 +44,7 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
                             .hashString(dto.getPassword(), StandardCharsets.UTF_8)
                             .toString()
             );
+            customer.setUserType(UserType.CUSTOMER.name());
             customer.setCode(
                     String.valueOf(
                             ZonedDateTime.now().toInstant().toEpochMilli()
