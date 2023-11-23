@@ -2,25 +2,23 @@ package ir.maktabsharif101.jpaexample;
 
 import com.github.javafaker.Faker;
 import ir.maktabsharif101.jpaexample.service.CustomerService;
+import ir.maktabsharif101.jpaexample.service.RandomStringService;
 import ir.maktabsharif101.jpaexample.service.dto.CustomerRegistrationDTO;
-import ir.maktabsharif101.jpaexample.service.dto.CustomerSearch;
+import ir.maktabsharif101.jpaexample.service.impl.RandomStringProxyServiceImpl;
 import ir.maktabsharif101.jpaexample.util.ApplicationContext;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class Application {
 
     public static void main(String[] args) {
-//        createFakeCustomers();
-        CustomerService customerService = ApplicationContext.getCustomerService();
 
-        System.out.println(
-                "findAll with search: " + customerService.search(new CustomerSearch()).size()
-        );
+        RandomStringService randomStringService = new RandomStringProxyServiceImpl();
 
-        System.out.println(
-                "findAll: " + customerService.findAll().size()
-        );
-
+        for (int i = 0; i < 8; i++) {
+            System.out.println(
+                    (i + 1) + ": " + randomStringService.generateRandomStringList()
+            );
+        }
 
     }
 
