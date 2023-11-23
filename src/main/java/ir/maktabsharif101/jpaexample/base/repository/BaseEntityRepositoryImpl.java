@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -30,11 +33,11 @@ public abstract class BaseEntityRepositoryImpl<T extends BaseEntity<ID>, ID exte
 
     @Override
     public List<T> findAll() {
-        TypedQuery<T> query = entityManager.createQuery(
-                "from " + getEntityClass().getSimpleName(),
-                getEntityClass()
-        );
-        return query.getResultList();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> query = criteriaBuilder.createQuery(getEntityClass());
+        Root<T> root = query.from(getEntityClass());
+        query.select(root);
+        return entityManager.createQuery(query).getResultList();
     }
 
     @Override

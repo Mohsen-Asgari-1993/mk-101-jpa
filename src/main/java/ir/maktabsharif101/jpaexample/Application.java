@@ -14,32 +14,11 @@ public class Application {
         CustomerService customerService = ApplicationContext.getCustomerService();
 
         System.out.println(
-                "1: " + customerService.search(new CustomerSearch()).size()
+                "findAll with search: " + customerService.search(new CustomerSearch()).size()
         );
 
         System.out.println(
-                "2: " + customerService.search(
-                        CustomerSearch.builder()
-                                .firstName("am")
-                                .build()
-                ).size()
-        );
-
-        System.out.println(
-                "3: " + customerService.search(
-                        CustomerSearch.builder()
-                                .firstName("am")
-                                .lastName("s")
-                                .build()
-                ).size()
-        );
-
-        System.out.println(
-                "4: " + customerService.search(
-                        CustomerSearch.builder()
-                                .mobileNumber("99")
-                                .build()
-                ).size()
+                "findAll: " + customerService.findAll().size()
         );
 
 
