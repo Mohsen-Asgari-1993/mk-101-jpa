@@ -1,6 +1,7 @@
 package ir.maktabsharif101.jpaexample.service.impl;
 
 import ir.maktabsharif101.jpaexample.service.RandomStringService;
+import ir.maktabsharif101.jpaexample.util.CacheManager;
 
 import java.util.List;
 
@@ -8,17 +9,17 @@ public class RandomStringProxyServiceImpl implements RandomStringService {
 
     private final RandomStringService originalService = new RandomStringServiceImpl();
 
-    private int counter = 0;
+    private final CacheManager cacheManager = CacheManager.getInstance();
 
-    private List<String> stringList;
+    public static final String CACHE_NAME = "stringCache";
 
     @Override
     public List<String> generateRandomStringList() {
-        System.out.println("in proxy object");
-        if (counter % 3 == 0) {
-            stringList = originalService.generateRandomStringList();
+        List<String> strings = (List<String>) cacheManager.getCache(CACHE_NAME);
+        if (strings == null) {
+            strings = originalService.generateRandomStringList();
+            cacheManager.put(CACHE_NAME, strings);
         }
-        counter++;
-        return stringList;
+        return strings;
     }
 }

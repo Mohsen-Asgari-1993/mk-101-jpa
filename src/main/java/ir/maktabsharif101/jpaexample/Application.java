@@ -6,6 +6,7 @@ import ir.maktabsharif101.jpaexample.service.RandomStringService;
 import ir.maktabsharif101.jpaexample.service.dto.CustomerRegistrationDTO;
 import ir.maktabsharif101.jpaexample.service.impl.RandomStringProxyServiceImpl;
 import ir.maktabsharif101.jpaexample.util.ApplicationContext;
+import ir.maktabsharif101.jpaexample.util.CacheManager;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class Application {
@@ -14,7 +15,14 @@ public class Application {
 
         RandomStringService randomStringService = new RandomStringProxyServiceImpl();
 
-        for (int i = 0; i < 8; i++) {
+        CacheManager cacheManager = CacheManager.getInstance();
+
+        for (int i = 0; i < 17; i++) {
+            if (i % 4 == 0) {
+                cacheManager.clearCache(
+                        RandomStringProxyServiceImpl.CACHE_NAME
+                );
+            }
             System.out.println(
                     (i + 1) + ": " + randomStringService.generateRandomStringList()
             );
