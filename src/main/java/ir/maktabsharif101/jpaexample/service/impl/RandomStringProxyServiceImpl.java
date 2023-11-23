@@ -5,6 +5,7 @@ import ir.maktabsharif101.jpaexample.util.CacheManager;
 
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class RandomStringProxyServiceImpl implements RandomStringService {
 
     private final RandomStringService originalService = new RandomStringServiceImpl();
