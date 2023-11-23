@@ -1,35 +1,31 @@
 package ir.maktabsharif101.jpaexample;
 
-import ir.maktabsharif101.jpaexample.service.AuthenticationService;
-import ir.maktabsharif101.jpaexample.service.WalletService;
-import ir.maktabsharif101.jpaexample.service.dto.LoginDTO;
+import com.github.javafaker.Faker;
+import ir.maktabsharif101.jpaexample.service.CustomerService;
+import ir.maktabsharif101.jpaexample.service.dto.CustomerRegistrationDTO;
 import ir.maktabsharif101.jpaexample.util.ApplicationContext;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class Application {
 
     public static void main(String[] args) {
+        createFakeCustomers();
+    }
 
-        WalletService walletService = ApplicationContext.getWalletService();
-        try {
-            walletService.getMyWallet();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        AuthenticationService authenticationService = ApplicationContext.getAuthenticationService();
-        authenticationService.authenticate(
-                new LoginDTO(
-                        "09121213333", "matmatmat"
-                )
-        );
-
-        try {
-            System.out.println(
-                    walletService.getMyWallet()
+    private static void createFakeCustomers() {
+        Faker faker = new Faker();
+        CustomerService customerService = ApplicationContext.getCustomerService();
+        for (int i = 0; i < 500; i++) {
+            customerService.registerNewCustomer(
+                    new CustomerRegistrationDTO(
+                            faker.name().firstName(),
+                            faker.name().lastName(),
+                            "09".concat(
+                                    RandomStringUtils.randomNumeric(9)
+                            ),
+                            RandomStringUtils.randomNumeric(9)
+                    )
             );
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
     }
 }
