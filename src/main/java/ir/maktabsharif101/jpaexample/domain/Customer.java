@@ -7,13 +7,25 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedEntityGraphs(
+        value = {
+                @NamedEntityGraph(
+                        name = Customer.ENTITY_GRAPH
+//                        TODO complete this
+                )
+        }
+)
 public class Customer extends BaseUser {
+
+    public static final String ENTITY_GRAPH = "customerEntityGraph";
 
     public static final String CODE = "code";
 

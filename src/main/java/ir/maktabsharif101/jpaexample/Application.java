@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import ir.maktabsharif101.jpaexample.domain.Customer;
 import ir.maktabsharif101.jpaexample.domain.Permission;
 import ir.maktabsharif101.jpaexample.domain.Role;
+import ir.maktabsharif101.jpaexample.repository.CustomerRepository;
 import ir.maktabsharif101.jpaexample.service.CustomerService;
 import ir.maktabsharif101.jpaexample.service.dto.CustomerRegistrationDTO;
 import ir.maktabsharif101.jpaexample.util.ApplicationContext;
@@ -12,11 +13,24 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class Application {
 
     public static void main(String[] args) {
+
+        CustomerRepository customerRepository = ApplicationContext.getCustomerRepository();
+
+
+        Optional<Customer> optionalCustomer = customerRepository.findById(10L);
+        optionalCustomer.ifPresent(
+                customer -> {
+                    System.out.println(customer);
+                    System.out.println(customer.getRoles().size());
+                    customer.getRoles().forEach(role -> System.out.println(role.getPermissions().size()));
+                }
+        );
 
 
     }
