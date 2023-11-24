@@ -10,4 +10,6 @@ public interface Page<T> {
 
     long getTotalElements();
 
+    long getTotalPages();
+
 }
