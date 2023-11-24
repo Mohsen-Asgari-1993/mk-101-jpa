@@ -12,8 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CustomerRepositoryImpl extends BaseUserRepositoryImpl<Customer> implements CustomerRepository {
 
@@ -24,6 +23,21 @@ public class CustomerRepositoryImpl extends BaseUserRepositoryImpl<Customer> imp
     @Override
     protected Class<Customer> getEntityClass() {
         return Customer.class;
+    }
+
+    @Override
+    public Optional<Customer> findById(Long id) {
+
+        Map<String, Object> hintMap = new HashMap<>();
+        hintMap.put(
+                "javax.persistence.fetchgraph",
+                entityManager.getEntityGraph(Customer.ENTITY_GRAPH)
+        );
+
+        return Optional.ofNullable(
+//                entityManager.find(getEntityClass(), id)
+                entityManager.find(getEntityClass(), id, hintMap)
+        );
     }
 
     @Override

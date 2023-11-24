@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedEntityGraph;
-import javax.persistence.NamedEntityGraphs;
+import javax.persistence.*;
 
 @Entity
 @Setter
@@ -18,8 +15,20 @@ import javax.persistence.NamedEntityGraphs;
 @NamedEntityGraphs(
         value = {
                 @NamedEntityGraph(
-                        name = Customer.ENTITY_GRAPH
-//                        TODO complete this
+                        name = Customer.ENTITY_GRAPH,
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "roles", subgraph = "roles_subgraph")
+                        },
+                        subgraphs = {
+                                @NamedSubgraph(
+                                        name = "roles_subgraph",
+                                        attributeNodes = {
+                                                @NamedAttributeNode(
+                                                        value = "permissions"
+                                                ),
+                                        }
+                                )
+                        }
                 )
         }
 )
