@@ -2,7 +2,7 @@ package ir.maktabsharif101.jpaexample;
 
 import com.github.javafaker.Faker;
 import ir.maktabsharif101.jpaexample.base.repository.util.Page;
-import ir.maktabsharif101.jpaexample.base.repository.util.Pageable;
+import ir.maktabsharif101.jpaexample.base.repository.util.PageRequest;
 import ir.maktabsharif101.jpaexample.domain.Customer;
 import ir.maktabsharif101.jpaexample.domain.Permission;
 import ir.maktabsharif101.jpaexample.domain.Role;
@@ -24,37 +24,7 @@ public class Application {
         CustomerRepository customerRepository = ApplicationContext.getCustomerRepository();
 
         Page<Customer> page = customerRepository.findAll(
-                new Pageable() {
-                    @Override
-                    public int getPageNumber() {
-                        return 2;
-                    }
-
-                    @Override
-                    public int getPageSize() {
-                        return 45;
-                    }
-
-                    @Override
-                    public long getOffset() {
-                        return (long) getPageNumber() * getPageSize();
-                    }
-
-                    @Override
-                    public Pageable first() {
-                        return null;
-                    }
-
-                    @Override
-                    public Pageable next() {
-                        return null;
-                    }
-
-                    @Override
-                    public Pageable previous() {
-                        return null;
-                    }
-                }
+                PageRequest.of(0, 100)
         );
 
         System.out.println(
