@@ -82,8 +82,41 @@ public abstract class BaseEntityRepositoryImpl<T extends BaseEntity<ID>, ID exte
 
     @Override
     public Page<T> findAll(Pageable pageable) {
-//        TODO develop this
-        return null;
+
+        if (pageable == null) {
+            throw new RuntimeException("pageable is null");
+        }
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> query = criteriaBuilder.createQuery(getEntityClass());
+        Root<T> root = query.from(getEntityClass());
+        query.select(root);
+        TypedQuery<T> typedQuery = entityManager.createQuery(query);
+        typedQuery.setFirstResult((int) pageable.getOffset())
+                .setMaxResults(pageable.getPageSize());
+        List<T> content = typedQuery.getResultList();
+
+        return new Page<T>() {
+            @Override
+            public List<T> getContent() {
+                return content;
+            }
+
+            @Override
+            public Pageable getPageable() {
+                return pageable;
+            }
+
+            @Override
+            public long getTotalElements() {
+                return count();
+            }
+
+            @Override
+            public long getTotalPages() {
+                return (long) Math.ceil((double) getTotalElements() / pageable.getPageSize());
+            }
+        };
     }
 
     protected abstract Class<T> getEntityClass();

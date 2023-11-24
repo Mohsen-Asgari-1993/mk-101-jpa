@@ -1,6 +1,8 @@
 package ir.maktabsharif101.jpaexample;
 
 import com.github.javafaker.Faker;
+import ir.maktabsharif101.jpaexample.base.repository.Page;
+import ir.maktabsharif101.jpaexample.base.repository.Pageable;
 import ir.maktabsharif101.jpaexample.domain.Customer;
 import ir.maktabsharif101.jpaexample.domain.Permission;
 import ir.maktabsharif101.jpaexample.domain.Role;
@@ -13,7 +15,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class Application {
@@ -22,16 +23,49 @@ public class Application {
 
         CustomerRepository customerRepository = ApplicationContext.getCustomerRepository();
 
+        Page<Customer> page = customerRepository.findAll(
+                new Pageable() {
+                    @Override
+                    public int getPageNumber() {
+                        return 2;
+                    }
 
-        Optional<Customer> optionalCustomer = customerRepository.findById(10L);
-        optionalCustomer.ifPresent(
-                customer -> {
-                    System.out.println(customer);
-                    System.out.println(customer.getRoles().size());
-                    customer.getRoles().forEach(role -> System.out.println(role.getPermissions().size()));
+                    @Override
+                    public int getPageSize() {
+                        return 45;
+                    }
+
+                    @Override
+                    public long getOffset() {
+                        return (long) getPageNumber() * getPageSize();
+                    }
+
+                    @Override
+                    public Pageable first() {
+                        return null;
+                    }
+
+                    @Override
+                    public Pageable next() {
+                        return null;
+                    }
+
+                    @Override
+                    public Pageable previous() {
+                        return null;
+                    }
                 }
         );
 
+        System.out.println(
+                "content size: " + page.getContent().size()
+        );
+        System.out.println(
+                "totalElements: " + page.getTotalElements()
+        );
+        System.out.println(
+                "totalPages: " + page.getTotalPages()
+        );
 
     }
 

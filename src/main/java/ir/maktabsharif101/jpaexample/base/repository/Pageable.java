@@ -4,7 +4,7 @@ public interface Pageable {
 
     int getPageNumber();
 
-    long getPageSize();
+    int getPageSize();
 
     long getOffset();
 
