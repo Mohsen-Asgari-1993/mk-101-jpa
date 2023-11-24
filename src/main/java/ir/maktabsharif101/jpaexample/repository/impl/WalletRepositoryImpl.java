@@ -4,7 +4,6 @@ import ir.maktabsharif101.jpaexample.base.repository.BaseEntityRepositoryImpl;
 import ir.maktabsharif101.jpaexample.domain.Wallet;
 import ir.maktabsharif101.jpaexample.repository.WalletRepository;
 
-import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -42,10 +41,9 @@ public class WalletRepositoryImpl extends BaseEntityRepositoryImpl<Wallet, Long>
 
         TypedQuery<Wallet> typedQuery = entityManager.createQuery(query);
 
-        EntityGraph<Wallet> entityGraph = entityManager.createEntityGraph(Wallet.class);
-        entityGraph.addAttributeNodes("customer");
         typedQuery.setHint(
-                "javax.persistence.fetchgraph", entityGraph
+                "javax.persistence.fetchgraph",
+                entityManager.getEntityGraph(Wallet.ENTITY_GRAPH)
         );
 //        typedQuery.setHint(
 //                "javax.persistence.loadgraph", entityGraph

@@ -23,9 +23,21 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedEntityGraphs(
+        value = {
+                @NamedEntityGraph(
+                        name = Wallet.ENTITY_GRAPH,
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "customer")
+                        }
+                )
+        }
+)
 public class Wallet extends BaseEntity<Long> {
 
     public static final String TABLE_NAME = "wallet";
+
+    public static final String ENTITY_GRAPH = "wallet_entity_graph";
 
     public static final String TOTAL_AMOUNT = "total_amount";
     public static final String CASH_AMOUNT = "cash_amount";
