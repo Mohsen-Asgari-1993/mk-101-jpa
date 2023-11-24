@@ -24,4 +24,6 @@ public interface BaseEntityRepository<T extends BaseEntity<ID>, ID extends Seria
 
 //    TODO add page and sort query
 
+    Page<T> findAll(Pageable pageable);
+
 }

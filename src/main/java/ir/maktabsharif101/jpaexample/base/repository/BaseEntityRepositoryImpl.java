@@ -80,6 +80,12 @@ public abstract class BaseEntityRepositoryImpl<T extends BaseEntity<ID>, ID exte
         return query.getSingleResult() > 0;
     }
 
+    @Override
+    public Page<T> findAll(Pageable pageable) {
+//        TODO develop this
+        return null;
+    }
+
     protected abstract Class<T> getEntityClass();
 
 }
