@@ -37,16 +37,12 @@ public class BaseEntityServiceImpl<T extends BaseEntity<ID>, ID extends Serializ
 
     @Override
     public void deleteAll() {
-        baseRepository.beginTransaction();
         baseRepository.deleteAll();
-        baseRepository.commitTransaction();
     }
 
     @Override
     public void deleteById(ID id) {
-        baseRepository.beginTransaction();
         baseRepository.deleteById(id);
-        baseRepository.commitTransaction();
     }
 
     @Override

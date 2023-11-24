@@ -22,12 +22,6 @@ public interface BaseEntityRepository<T extends BaseEntity<ID>, ID extends Seria
 
     boolean existsById(ID id);
 
-    void beginTransaction();
-
-    void commitTransaction();
-
-    void rollbackTransaction();
-
 //    TODO add page and sort query
 
 }

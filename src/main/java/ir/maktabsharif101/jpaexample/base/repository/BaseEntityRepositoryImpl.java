@@ -4,7 +4,6 @@ import ir.maktabsharif101.jpaexample.base.domain.BaseEntity;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -79,30 +78,6 @@ public abstract class BaseEntityRepositoryImpl<T extends BaseEntity<ID>, ID exte
         );
         query.setParameter("id", id);
         return query.getSingleResult() > 0;
-    }
-
-    @Override
-    public void beginTransaction() {
-        EntityTransaction transaction = entityManager.getTransaction();
-        if (!transaction.isActive()) {
-            transaction.begin();
-        }
-    }
-
-    @Override
-    public void commitTransaction() {
-        EntityTransaction transaction = entityManager.getTransaction();
-        if (transaction.isActive()) {
-            transaction.commit();
-        }
-    }
-
-    @Override
-    public void rollbackTransaction() {
-        EntityTransaction transaction = entityManager.getTransaction();
-        if (transaction.isActive()) {
-            transaction.rollback();
-        }
     }
 
     protected abstract Class<T> getEntityClass();

@@ -35,7 +35,6 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
             if (baseRepository.existsByMobileNumber(dto.getMobileNumber())) {
                 throw new RuntimeException("duplicate mobileNumber");
             }
-            baseRepository.beginTransaction();
             Customer customer = new Customer();
             customer.setFirstName(dto.getFirstName());
             customer.setLastName(dto.getLastName());
@@ -59,11 +58,7 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
                             customer.getId()
                     )
             );
-            baseRepository.commitTransaction();
             return customer;
-        } catch (Exception e) {
-            baseRepository.rollbackTransaction();
-            throw e;
         } finally {
             SemaphoreUtil.releaseNewCustomerSemaphore();
         }

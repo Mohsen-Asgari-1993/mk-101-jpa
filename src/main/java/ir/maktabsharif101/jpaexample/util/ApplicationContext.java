@@ -4,6 +4,8 @@ import ir.maktabsharif101.jpaexample.repository.*;
 import ir.maktabsharif101.jpaexample.repository.impl.*;
 import ir.maktabsharif101.jpaexample.service.*;
 import ir.maktabsharif101.jpaexample.service.impl.*;
+import ir.maktabsharif101.jpaexample.service.proxy.CustomerProxyServiceImpl;
+import ir.maktabsharif101.jpaexample.service.proxy.WalletProxyServiceImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -45,6 +47,10 @@ public class ApplicationContext {
     private static WalletService walletService;
 
     private static AuthenticationService authenticationService;
+
+    private static CustomerService customerProxyService;
+
+    private static WalletService walletProxyService;
 
     public static EntityManager getEntityManager() {
         return entityManager;
@@ -121,7 +127,7 @@ public class ApplicationContext {
         if (customerService == null) {
             customerService = new CustomerServiceImpl(
                     getCustomerRepository(),
-                    getWalletService()
+                    getWalletProxyService()
             );
         }
         return customerService;
@@ -170,5 +176,23 @@ public class ApplicationContext {
             );
         }
         return authenticationService;
+    }
+
+    public static CustomerService getCustomerProxyService() {
+        if (customerProxyService == null) {
+            customerProxyService = new CustomerProxyServiceImpl(
+                    getCustomerService()
+            );
+        }
+        return customerProxyService;
+    }
+
+    public static WalletService getWalletProxyService() {
+        if (walletProxyService == null) {
+            walletProxyService = new WalletProxyServiceImpl(
+                    getWalletService()
+            );
+        }
+        return walletProxyService;
     }
 }
