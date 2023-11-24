@@ -50,4 +50,13 @@ public class PageRequest implements Pageable {
     public Pageable previous() {
         return getPageNumber() == 0 ? this : new PageRequest(getPageNumber() - 1, getPageSize());
     }
+
+    @Override
+    public String toString() {
+        return "PageRequest{" +
+                "page=" + page +
+                ", size=" + size +
+                ", offset=" + getOffset() +
+                '}';
+    }
 }

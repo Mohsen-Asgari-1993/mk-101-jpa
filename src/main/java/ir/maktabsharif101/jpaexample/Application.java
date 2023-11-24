@@ -1,7 +1,6 @@
 package ir.maktabsharif101.jpaexample;
 
 import com.github.javafaker.Faker;
-import ir.maktabsharif101.jpaexample.base.repository.util.Page;
 import ir.maktabsharif101.jpaexample.base.repository.util.PageRequest;
 import ir.maktabsharif101.jpaexample.domain.Customer;
 import ir.maktabsharif101.jpaexample.domain.Permission;
@@ -23,18 +22,10 @@ public class Application {
 
         CustomerRepository customerRepository = ApplicationContext.getCustomerRepository();
 
-        Page<Customer> page = customerRepository.findAll(
-                PageRequest.of(0, 100)
-        );
-
         System.out.println(
-                "content size: " + page.getContent().size()
-        );
-        System.out.println(
-                "totalElements: " + page.getTotalElements()
-        );
-        System.out.println(
-                "totalPages: " + page.getTotalPages()
+                customerRepository.findAll(
+                        PageRequest.of(3, 50)
+                )
         );
 
     }

@@ -2,6 +2,7 @@ package ir.maktabsharif101.jpaexample.base.repository;
 
 import ir.maktabsharif101.jpaexample.base.domain.BaseEntity;
 import ir.maktabsharif101.jpaexample.base.repository.util.Page;
+import ir.maktabsharif101.jpaexample.base.repository.util.PageImpl;
 import ir.maktabsharif101.jpaexample.base.repository.util.Pageable;
 import lombok.RequiredArgsConstructor;
 
@@ -96,29 +97,12 @@ public abstract class BaseEntityRepositoryImpl<T extends BaseEntity<ID>, ID exte
         TypedQuery<T> typedQuery = entityManager.createQuery(query);
         typedQuery.setFirstResult((int) pageable.getOffset())
                 .setMaxResults(pageable.getPageSize());
-        List<T> content = typedQuery.getResultList();
 
-        return new Page<T>() {
-            @Override
-            public List<T> getContent() {
-                return content;
-            }
-
-            @Override
-            public Pageable getPageable() {
-                return pageable;
-            }
-
-            @Override
-            public long getTotalElements() {
-                return count();
-            }
-
-            @Override
-            public long getTotalPages() {
-                return (long) Math.ceil((double) getTotalElements() / pageable.getPageSize());
-            }
-        };
+        return new PageImpl<>(
+                typedQuery.getResultList(),
+                pageable,
+                count()
+        );
     }
 
     protected abstract Class<T> getEntityClass();
