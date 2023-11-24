@@ -1,4 +1,4 @@
-package ir.maktabsharif101.jpaexample.base.repository;
+package ir.maktabsharif101.jpaexample.base.repository.util;
 
 import java.util.List;
 

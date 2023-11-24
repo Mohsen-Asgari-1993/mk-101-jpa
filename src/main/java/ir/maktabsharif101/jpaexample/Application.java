@@ -1,8 +1,8 @@
 package ir.maktabsharif101.jpaexample;
 
 import com.github.javafaker.Faker;
-import ir.maktabsharif101.jpaexample.base.repository.Page;
-import ir.maktabsharif101.jpaexample.base.repository.Pageable;
+import ir.maktabsharif101.jpaexample.base.repository.util.Page;
+import ir.maktabsharif101.jpaexample.base.repository.util.Pageable;
 import ir.maktabsharif101.jpaexample.domain.Customer;
 import ir.maktabsharif101.jpaexample.domain.Permission;
 import ir.maktabsharif101.jpaexample.domain.Role;

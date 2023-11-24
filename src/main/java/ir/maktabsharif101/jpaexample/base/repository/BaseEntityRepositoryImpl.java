@@ -1,6 +1,8 @@
 package ir.maktabsharif101.jpaexample.base.repository;
 
 import ir.maktabsharif101.jpaexample.base.domain.BaseEntity;
+import ir.maktabsharif101.jpaexample.base.repository.util.Page;
+import ir.maktabsharif101.jpaexample.base.repository.util.Pageable;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
