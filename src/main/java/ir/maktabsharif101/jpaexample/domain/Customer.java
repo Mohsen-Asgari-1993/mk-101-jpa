@@ -7,8 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
 
 @Entity
 @Setter
@@ -22,4 +20,13 @@ public class Customer extends BaseUser {
     @Column(name = CODE, unique = true, nullable = false)
     private String code;
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id='" + getId() + '\'' +
+                ", firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                ", mobileNumber='" + getMobileNumber() + '\'' +
+                '}';
+    }
 }

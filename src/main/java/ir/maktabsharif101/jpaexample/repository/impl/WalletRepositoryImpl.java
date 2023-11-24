@@ -4,8 +4,13 @@ import ir.maktabsharif101.jpaexample.base.repository.BaseEntityRepositoryImpl;
 import ir.maktabsharif101.jpaexample.domain.Wallet;
 import ir.maktabsharif101.jpaexample.repository.WalletRepository;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class WalletRepositoryImpl extends BaseEntityRepositoryImpl<Wallet, Long> implements WalletRepository {
 
@@ -21,10 +26,30 @@ public class WalletRepositoryImpl extends BaseEntityRepositoryImpl<Wallet, Long>
     @Override
     public Wallet findByCustomerId(Long customerId) {
         TypedQuery<Wallet> query = entityManager.createQuery(
-                "select w from Wallet w where w.customerId = :customerId",
+                "select w from Wallet w where w.customer.id = :customerId",
                 getEntityClass()
         );
         query.setParameter("customerId", customerId);
         return query.getSingleResult();
+    }
+
+    @Override
+    public List<Wallet> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Wallet> query = criteriaBuilder.createQuery(getEntityClass());
+        Root<Wallet> root = query.from(getEntityClass());
+        query.select(root);
+
+        TypedQuery<Wallet> typedQuery = entityManager.createQuery(query);
+
+        EntityGraph<Wallet> entityGraph = entityManager.createEntityGraph(Wallet.class);
+        entityGraph.addAttributeNodes("customer");
+        typedQuery.setHint(
+                "javax.persistence.fetchgraph", entityGraph
+        );
+//        typedQuery.setHint(
+//                "javax.persistence.loadgraph", entityGraph
+//        );
+        return typedQuery.getResultList();
     }
 }

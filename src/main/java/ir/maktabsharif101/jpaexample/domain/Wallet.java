@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(
@@ -44,11 +41,14 @@ public class Wallet extends BaseEntity<Long> {
     @Column(name = CREDIT_AMOUNT)
     private Long creditAmount = 0L;
 
-    @Column(name = CUSTOMER_ID, nullable = false)
-    private Long customerId;
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = CUSTOMER_ID)
+    private Customer customer;
 
     public Wallet(Long customerId) {
-        this.customerId = customerId;
+        Customer customer = new Customer();
+        customer.setId(customerId);
+        this.customer = customer;
     }
 
     @Override
@@ -58,7 +58,8 @@ public class Wallet extends BaseEntity<Long> {
                 ", totalAmount=" + totalAmount +
                 ", cashAmount=" + cashAmount +
                 ", creditAmount=" + creditAmount +
-                ", customerId=" + customerId +
+//                ", customerId=" + customerId +
+                ", customer=" + customer +
                 '}';
     }
 }
