@@ -1,33 +1,73 @@
 package ir.maktabsharif101.jpaexample;
 
 import com.github.javafaker.Faker;
-import ir.maktabsharif101.jpaexample.base.repository.util.PageRequest;
 import ir.maktabsharif101.jpaexample.domain.Customer;
 import ir.maktabsharif101.jpaexample.domain.Permission;
 import ir.maktabsharif101.jpaexample.domain.Role;
-import ir.maktabsharif101.jpaexample.repository.CustomerRepository;
 import ir.maktabsharif101.jpaexample.service.CustomerService;
 import ir.maktabsharif101.jpaexample.service.dto.CustomerRegistrationDTO;
 import ir.maktabsharif101.jpaexample.util.ApplicationContext;
 import ir.maktabsharif101.jpaexample.util.TransactionProvider;
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.io.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        writeWithFileWriter();
 
-        CustomerRepository customerRepository = ApplicationContext.getCustomerRepository();
+        readWithFileReader();
 
-        System.out.println(
-                customerRepository.findAll(
-                        PageRequest.of(3, 50)
-                )
-        );
+        writeWithFileOutputStream();
 
+        readWithFileInputStream();
+
+    }
+
+    private static void writeWithFileOutputStream() throws IOException {
+        File file = new File("second-file.txt");
+
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            outputStream.write(
+                    new byte[]{
+                            0, 1, 2, 3
+                    }
+            );
+        }
+    }
+
+    private static void readWithFileInputStream() throws IOException {
+        File file = new File("second-file.txt");
+
+        try (FileInputStream inputStream = new FileInputStream(file)) {
+            int data = inputStream.read();
+            while (data != -1) {
+                System.out.print(data);
+                data = inputStream.read();
+            }
+        }
+    }
+
+    private static void readWithFileReader() throws IOException {
+        File file = new File("first-file.txt");
+        try (FileReader fileReader = new FileReader(file)) {
+            int firstChar = fileReader.read();
+            while (firstChar != -1) {
+                System.out.print((char) firstChar);
+                firstChar = fileReader.read();
+            }
+        }
+    }
+
+    private static void writeWithFileWriter() throws IOException {
+        File file = new File("first-file.txt");
+        FileWriter fileWriter = new FileWriter(file, false);
+        fileWriter.write("this is second line");
+        fileWriter.close();
     }
 
     private static void addRolesAndPermissionsToCustomers() {
