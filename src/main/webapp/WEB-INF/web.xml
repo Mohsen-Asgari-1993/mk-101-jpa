@@ -8,10 +8,19 @@
         <servlet-name>home</servlet-name>
         <servlet-class>ir.maktabsharif101.jpaexample.servlet.HomeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>json-test</servlet-name>
+        <servlet-class>ir.maktabsharif101.jpaexample.servlet.JsonServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>home</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>json-test</servlet-name>
+        <url-pattern>/json-test</url-pattern>
     </servlet-mapping>
 
 </web-app>
