@@ -6,44 +6,48 @@ import ir.maktabsharif101.jpaexample.domain.Permission;
 import ir.maktabsharif101.jpaexample.domain.Role;
 import ir.maktabsharif101.jpaexample.service.CustomerService;
 import ir.maktabsharif101.jpaexample.service.dto.CustomerRegistrationDTO;
-import ir.maktabsharif101.jpaexample.service.dto.CustomerSearch;
 import ir.maktabsharif101.jpaexample.util.ApplicationContext;
 import ir.maktabsharif101.jpaexample.util.TransactionProvider;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Application {
 
-    public static void main(String[] args) throws IOException {
+    static Logger logger = Logger.getLogger(
+            "MyLogName"
+    );
 
-        List<Customer> customers = ApplicationContext.getCustomerService().search(
-                CustomerSearch.builder()
-                        .firstName("m")
-                        .build()
+    static {
+        try {
+            FileHandler fileHandler = new FileHandler("my-app.log");
+            fileHandler.setFormatter(new SimpleFormatter());
+            logger.addHandler(fileHandler);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        logger.log(
+                Level.INFO, "app started!!"
         );
 
-        try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("customers");
-            sheet.setRightToLeft(true);
-            addHeader(workbook, sheet);
-            addData(workbook, sheet, customers);
+//        impl business logic
 
-            for (int i = 0; i < 3; i++) {
-                sheet.autoSizeColumn(i);
-            }
+        logger.log(
+                Level.INFO, "app shutdown!!"
+        );
 
-            try (FileOutputStream outputStream = new FileOutputStream("customers.xlsx")) {
-                workbook.write(outputStream);
-                workbook.close();
-            }
-        }
 
     }
 
