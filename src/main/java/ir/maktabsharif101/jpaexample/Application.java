@@ -6,9 +6,13 @@ import ir.maktabsharif101.jpaexample.domain.Permission;
 import ir.maktabsharif101.jpaexample.domain.Role;
 import ir.maktabsharif101.jpaexample.service.CustomerService;
 import ir.maktabsharif101.jpaexample.service.dto.CustomerRegistrationDTO;
+import ir.maktabsharif101.jpaexample.service.dto.CustomerSearch;
 import ir.maktabsharif101.jpaexample.util.ApplicationContext;
 import ir.maktabsharif101.jpaexample.util.TransactionProvider;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.util.HashSet;
@@ -18,13 +22,84 @@ import java.util.Set;
 public class Application {
 
     public static void main(String[] args) throws IOException {
-        writeWithFileWriter();
 
-        readWithFileReader();
+        List<Customer> customers = ApplicationContext.getCustomerService().search(
+                CustomerSearch.builder()
+                        .firstName("m")
+                        .build()
+        );
 
-        writeWithFileOutputStream();
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("customers");
+            sheet.setRightToLeft(true);
+            addHeader(workbook, sheet);
+            addData(workbook, sheet, customers);
 
-        readWithFileInputStream();
+            for (int i = 0; i < 3; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            try (FileOutputStream outputStream = new FileOutputStream("customers.xlsx")) {
+                workbook.write(outputStream);
+                workbook.close();
+            }
+        }
+
+    }
+
+    private static void addData(Workbook workbook, Sheet sheet, List<Customer> customers) {
+        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+
+        int rowNumber = 1;
+
+        for (Customer customer : customers) {
+            Row row = sheet.createRow(rowNumber++);
+            Cell cell = row.createCell(0);
+            cell.setCellValue(customer.getFirstName());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(1);
+            cell.setCellValue(customer.getLastName());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(2);
+            cell.setCellValue(customer.getMobileNumber());
+            cell.setCellStyle(cellStyle);
+        }
+
+    }
+
+    private static void addHeader(Workbook workbook, Sheet sheet) {
+        Font font = workbook.createFont();
+        font.setBold(true);
+        font.setColor(
+                HSSFColor.HSSFColorPredefined.RED.getColor().getIndex()
+        );
+        font.setFontName("B Nazanin");
+
+        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setFont(font);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+//        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+//        cellStyle.setFillBackgroundColor(
+//                HSSFColor.HSSFColorPredefined.AQUA.getColor().getIndex()
+//        );
+
+        Row headerRow = sheet.createRow(0);
+        Cell cell = headerRow.createCell(0);
+        cell.setCellValue("نام");
+        cell.setCellStyle(cellStyle);
+
+        cell = headerRow.createCell(1);
+        cell.setCellValue("نام خانوادگی");
+        cell.setCellStyle(cellStyle);
+
+        cell = headerRow.createCell(2);
+        cell.setCellValue("شماره موبایل");
+        cell.setCellStyle(cellStyle);
 
     }
 
