@@ -6,14 +6,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.stream.Collectors;
 
 public class JsonServlet extends HttpServlet {
 
@@ -35,11 +33,35 @@ public class JsonServlet extends HttpServlet {
         );
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if ("application/json".equalsIgnoreCase(request.getContentType())) {
+            String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+            User user;
+            try {
+                user = objectMapper.readValue(
+                        body, User.class
+                );
+            } catch (Exception e) {
+                response.sendError(
+                        400, "bad json"
+                );
+                return;
+            }
+            System.out.println(user);
+
+        } else {
+            response.sendError(
+                    415, "only json supported"
+            );
+        }
+    }
 
     @Setter
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    @ToString
     static class User implements Serializable {
         private String firstName;
         private String lastName;
